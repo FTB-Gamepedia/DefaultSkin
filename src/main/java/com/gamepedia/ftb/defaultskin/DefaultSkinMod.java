@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Mod(modid = "defaultskin", name = "DefaultSkin", version = "1.0.0", clientSideOnly = true)
@@ -56,7 +55,7 @@ public class DefaultSkinMod {
                             if (!skinCache.containsKey(id)) {
                                 skinCache.put(id, info.getLocationSkin());
                             }
-                            info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkinLegacy());
+                            info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
                         }
                     }
                     isEnabled = true;
@@ -69,9 +68,13 @@ public class DefaultSkinMod {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (isEnabled && event.getEntity() instanceof AbstractClientPlayer) {
             AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
-            if (player.hasPlayerInfo()) {
-                skinCache.put(player.getUniqueID(), player.getLocationSkin());
-                player.getPlayerInfo().playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkinLegacy());
+            NetworkPlayerInfo info = player.getPlayerInfo();
+            if (info != null) {
+                UUID id = info.getGameProfile().getId();
+                if (id != null) {
+                    skinCache.put(id, info.getLocationSkin());
+                    player.getPlayerInfo().playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
+                }
             }
         }
     }
