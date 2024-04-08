@@ -21,7 +21,7 @@ import org.lwjgl.input.Keyboard;
 import java.util.Map;
 import java.util.UUID;
 
-@Mod(modid = "defaultskin", name = "DefaultSkin", version = "1.0.0", clientSideOnly = true)
+@Mod(modid = "defaultskin", name = "DefaultSkin", version = "2.0.0", clientSideOnly = true)
 public class DefaultSkinMod {
     private KeyBinding key;
     private final Map<UUID, ResourceLocation> skinCache = Maps.newHashMap();
