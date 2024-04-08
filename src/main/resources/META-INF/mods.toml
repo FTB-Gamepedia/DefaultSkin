@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+issueTrackerURL="https://github.com/FTB-Gamepedia/DefaultSkin/issues"
+
+[[mods]]
+modId="defaultskin"
+version="${version}"
+displayName="DefaultSkin"
+displayURL="https://modrinth.com/mod/defaultskin"
+credits=""
+authors="SatanicSanta"
+description="Adds a keybind to toggle between default and custom player skins."
+
+[[dependencies.defaultskin]]
+    modId="forge"
+    mandatory=true
+    versionRange="[25,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.defaultskin]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13,1.13.2]"
+    ordering="NONE"
+    side="CLIENT"

@@ -9,35 +9,39 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Map;
 import java.util.UUID;
 
-@Mod(modid = "defaultskin", name = "DefaultSkin", version = "2.0.1", clientSideOnly = true, acceptedMinecraftVersions = "[1.9,1.12.2]")
+@Mod("defaultskin")
 public class DefaultSkinMod {
     private KeyBinding key;
     private final Map<UUID, ResourceLocation> skinCache = Maps.newHashMap();
     private boolean isEnabled = false;
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        key = new KeyBinding("key.defaultskin.desc", Keyboard.KEY_RBRACKET, "key.defaultskin.category");
-        ClientRegistry.registerKeyBinding(key);
+    public DefaultSkinMod() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerKeyBinding);
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public void registerKeyBinding(FMLClientSetupEvent event) {
+        key = new KeyBinding("key.defaultskin.desc", GLFW.GLFW_KEY_RIGHT_BRACKET, "key.defaultskin.category");
+        ClientRegistry.registerKeyBinding(key);
     }
 
     @SubscribeEvent
     public void onToggleKeyPress(InputEvent.KeyInputEvent event) {
         if (key.isPressed()) {
-            NetHandlerPlayClient connection = Minecraft.getMinecraft().getConnection();
+            NetHandlerPlayClient connection = Minecraft.getInstance().getConnection();
             if (connection != null) {
                 if (isEnabled) {
                     for (Map.Entry<UUID, ResourceLocation> cache : skinCache.entrySet()) {
