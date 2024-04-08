@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "defaultskin",
+    "name":  "DefaultSkin",
+    "description": "Client-side mod that disables custom skins.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["SatanicSanta"],
+    "credits": "",
+    "logoFile":  "",
+    "screenshots": [],
+    "dependencies":  []
+  }
+]
