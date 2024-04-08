@@ -73,7 +73,7 @@ public class DefaultSkinMod {
                 UUID id = info.getGameProfile().getId();
                 if (id != null) {
                     skinCache.put(id, info.getLocationSkin());
-                    player.getPlayerInfo().playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
+                    info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
                 }
             }
         }
