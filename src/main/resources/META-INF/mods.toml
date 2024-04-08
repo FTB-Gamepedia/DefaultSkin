@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[25,)"
 issueTrackerURL="https://github.com/FTB-Gamepedia/DefaultSkin/issues"
+license="MIT"
 
 [[mods]]
 modId="defaultskin"
@@ -21,6 +22,6 @@ description="Adds a keybind to toggle between default and custom player skins."
 [[dependencies.defaultskin]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.13,1.13.2]"
+    versionRange="[1.14,1.16.5]"
     ordering="NONE"
     side="CLIENT"

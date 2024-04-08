@@ -3,9 +3,9 @@ package com.gamepedia.ftb.defaultskin;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
@@ -40,26 +40,26 @@ public class DefaultSkinMod {
 
     @SubscribeEvent
     public void onToggleKeyPress(InputEvent.KeyInputEvent event) {
-        if (key.isPressed()) {
-            NetHandlerPlayClient connection = Minecraft.getInstance().getConnection();
+        if (key.isDown()) {
+            ClientPlayNetHandler connection = Minecraft.getInstance().getConnection();
             if (connection != null) {
                 if (isEnabled) {
                     for (Map.Entry<UUID, ResourceLocation> cache : skinCache.entrySet()) {
                         NetworkPlayerInfo info = connection.getPlayerInfo(cache.getKey());
                         //noinspection ConstantValue -- info can in fact be null.
                         if (info != null) {
-                            info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, cache.getValue());
+                            info.textureLocations.put(MinecraftProfileTexture.Type.SKIN, cache.getValue());
                         }
                     }
                     isEnabled = false;
                 } else {
-                    for (NetworkPlayerInfo info : connection.getPlayerInfoMap()) {
-                        UUID id = info.getGameProfile().getId();
+                    for (NetworkPlayerInfo info : connection.getOnlinePlayers()) {
+                        UUID id = info.getProfile().getId();
                         if (id != null) {
                             if (!skinCache.containsKey(id)) {
-                                skinCache.put(id, info.getLocationSkin());
+                                skinCache.put(id, info.getSkinLocation());
                             }
-                            info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
+                            info.textureLocations.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
                         }
                     }
                     isEnabled = true;
@@ -70,14 +70,14 @@ public class DefaultSkinMod {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (isEnabled && event.getEntity() instanceof AbstractClientPlayer) {
-            AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
+        if (isEnabled && event.getEntity() instanceof AbstractClientPlayerEntity) {
+            AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) event.getEntity();
             NetworkPlayerInfo info = player.getPlayerInfo();
             if (info != null) {
-                UUID id = info.getGameProfile().getId();
+                UUID id = info.getProfile().getId();
                 if (id != null) {
-                    skinCache.put(id, info.getLocationSkin());
-                    info.playerTextures.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
+                    skinCache.put(id, info.getSkinLocation());
+                    info.textureLocations.put(MinecraftProfileTexture.Type.SKIN, DefaultPlayerSkin.getDefaultSkin(id));
                 }
             }
         }
