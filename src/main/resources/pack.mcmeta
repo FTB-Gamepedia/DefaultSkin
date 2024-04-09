@@ -1,8 +1,6 @@
 {
   "pack": {
-    "pack_format": 13,
-    "description": {
-      "text": "Resources for DefaultSkin."
-    }
+    "pack_format": 18,
+    "description": "Resources for DefaultSkin."
   }
 }
