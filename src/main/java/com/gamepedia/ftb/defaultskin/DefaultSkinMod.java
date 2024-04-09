@@ -3,11 +3,12 @@ package com.gamepedia.ftb.defaultskin;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.lwjgl.glfw.GLFW;
 
@@ -18,11 +19,12 @@ public class DefaultSkinMod {
     private static boolean isEnabled = false;
 
     public DefaultSkinMod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerKeyBinding);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> (DistExecutor.SafeRunnable) () -> bus.addListener(this::registerKeyBinding));
     }
 
-    public void registerKeyBinding(FMLClientSetupEvent event) {
-        ClientRegistry.registerKeyBinding(key);
+    public void registerKeyBinding(RegisterKeyMappingsEvent event) {
+        event.register(key);
     }
 
     @OnlyIn(Dist.CLIENT)
