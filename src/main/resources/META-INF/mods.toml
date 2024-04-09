@@ -5,23 +5,24 @@ license="MIT"
 
 [[mods]]
 modId="defaultskin"
-version="${version}"
+version="${file.jarVersion}"
 displayName="DefaultSkin"
 displayURL="https://modrinth.com/mod/defaultskin"
 credits=""
 authors="SatanicSanta"
 description="Adds a keybind to toggle between default and custom player skins."
+displayTest="IGNORE_ALL_VERSION"
 
 [[dependencies.defaultskin]]
     modId="forge"
     mandatory=true
-    versionRange="[25,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.defaultskin]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14,1.16.5]"
+    versionRange="[1.17,1.17.1]"
     ordering="NONE"
     side="CLIENT"

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.gamepedia.ftb.defaultskin.mixins",
+  "compatibilityLevel": "JAVA_16",
+  "refmap": "defaultskin.refmap.json",
+  "mixins": [
+    "AbstractClientPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
