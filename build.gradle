@@ -20,7 +20,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = "4.0.0"
+version = "5.0.0"
 group = "com.gamepedia.ftb.defaultskin"
 archivesBaseName = "DefaultSkin-1.17.1"
 
